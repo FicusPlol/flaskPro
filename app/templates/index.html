@@ -1,0 +1,20 @@
+{%  extends "base.html" %}
+{% block content %}
+<center>
+    <h1>Hiiiiiiiiiiiiiiii my friend!</h1>
+    <h3>You are a friend</h3>
+
+	{% for u in list %}
+		<li>id: {{u.id}} </li>
+		<p>email: {{u.email}}</p>
+
+	<p>Имя: {{u.pr.name}}</p>
+	<p>Город: {{u.pr.city}}</p>
+
+	</li>
+	<p></p>
+{% endfor %}
+
+</center>
+
+{% endblock %}

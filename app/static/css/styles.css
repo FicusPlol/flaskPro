@@ -1,0 +1,16 @@
+.form.invalid {
+	display: inline-block;
+	background: #FF9898;
+}
+.form.invalid-feedback {
+	color: #CC0000;
+}
+.form{
+color: #21629a;
+}
+.u{
+color: #21629a;
+}
+.u:hover{
+background-color: black;
+}
