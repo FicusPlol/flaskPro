@@ -24,7 +24,7 @@ class Users(db.Model):
         return check_password_hash(self.psw, password)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f"<users {self.id}>"
 
 
 @login_manager.user_loader
