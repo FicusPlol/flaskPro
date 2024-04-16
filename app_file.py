@@ -8,7 +8,7 @@ from app import create_app, db
 
 app = create_app('default')
 
-#app.run(debug=True)
+app.run(debug=True)
 import os
 '''
 @app.shell_context_processors

@@ -1,18 +1,23 @@
 from flask import render_template, redirect, url_for, flash, request, session
 from flask_login import login_user, logout_user
+from werkzeug.security import generate_password_hash
+from flask_mail import Message
 
-from . import auth
+from app_file import app
+from .forms import *
+from .. import mail
 from .. import db
 from ..models import *
-from flask_mail import Message
-import app
-from app.models import *
-from .forms import ContactForm
-from .. import mail
+from . import auth
 
+
+@auth.route("/login", methods=['GET', 'POST'])
+def login():
+    pass
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register():
+    print(66666)
     form = ContactForm()
     if request.method == 'POST':
 
