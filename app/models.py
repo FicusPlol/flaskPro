@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from . import db,login_manager
 class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +12,24 @@ class Users(db.Model):
 
     pr = db.relationship('Profiles', backref='users', uselist=False)
 
+    @property
+    def password(self):
+        raise AttributeError("password not enable to read")
+
+    @password.setter
+    def password(self, password):
+        self.psw= generate_password_hash(password, method='pbkdf2:sha256')
+
+    def verify(self, password):
+        return check_password_hash(self.psw, password)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
     def __repr__(self):
         return f"<users {self.id}>"
 

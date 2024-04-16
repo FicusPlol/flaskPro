@@ -1,14 +1,15 @@
-from flask import  render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request
 from werkzeug.security import generate_password_hash
 from flask_mail import Message
 import app
 from app.models import *
 from . import main
+from .forms import ContactForm
 from .. import mail
 
 
-@main.view('/')
-@main.view('/index')
+@main.route('/')
+@main.route('/index')
 def index():
     info = []
     try:
@@ -17,10 +18,12 @@ def index():
         print("Ошибка чтения из БД")
     return render_template('index.html', list=info)
 
-
-@main.view('/register', methods=['POST', 'GET'])
+'''
+@main.route('/register', methods=['POST', 'GET'])
 def register():
+    form = ContactForm()
     if request.method == 'POST':
+
         hash = generate_password_hash(request.form['psw'])
         u = Users(email=request.form['email'], psw=hash)  # not work
         email1 = request.form['email']
@@ -36,21 +39,27 @@ def register():
             mail.send(msg)
             print('Email sent!')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     return render_template('form_register.html')
 
 
-@main.view('/login', methods=['POST', 'GET'])
+@main.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         email1 = request.form['email']
         print(email1)
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     return render_template('form_login.html')
 
+'''
+@main.errorhandler(404)
+def page_not_found(error):
+    return render_template("error.html"), 404
 
+
+''''
 @main.view('/error')
 def error():
     return render_template('error.html'), 403
@@ -59,9 +68,8 @@ def error():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("error.html"), 404
-
-
-''''
+    
+    
 old version
 
 from flask_mail import Message
