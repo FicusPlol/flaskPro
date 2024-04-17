@@ -18,23 +18,29 @@ def login():
         psw = request.form['psw']
         hash = generate_password_hash(request.form['psw'])
         user = Users.query.filter((Users.email == email1) and (Users.psw == hash)).first()
-        print(email1, user, hash)
+        print(user)
         if user:
+            print('if yess')
             login_user(user)
-            print(888888888888888888888888888)
-            return redirect(url_for('main.index'))
+            print("вошел!")
+            next_page = request.args.get("next")
+            if not next_page or not next_page.startswith('/'):
+                next_page = url_for('main.index')
+            return redirect(next_page)
         flash('Invalid username or password', 'error')
     return render_template('form_login.html')
 
 @auth.route("/logout")
 def logout():
+    print('before logout')
     logout_user()
+    print('успех!')
     flash('You have been logged out.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.none'))
 
 @auth.route("/register", methods=['POST', 'GET'])
 def register():
-    print(66666)
+
     form = ContactForm()
     if request.method == 'POST':
 

@@ -9,23 +9,21 @@
     {% block navbar %}
         <nav class="navbar navbar-expand-lg text-white" style="background: #3571af" >
   <div class="container-fluid ">
-    <a class="navbar-brand text-white" href="index">ψ(｀∇´)ψ</a>
+    <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/index'" >ψ(｀∇´)ψ</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="index">Home</a>
+          <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/register'" >Form SingIn</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="auth/register">Form Regis</a>
+          <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/login'" >Form LogIn</a>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline u text-white" type="submit">Search</button>
-      </form>
+        <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/logout'" >Logout</a>
     </div>
   </div>
 </nav>

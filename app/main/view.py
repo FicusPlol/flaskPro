@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request
+from flask_login import current_user
 from werkzeug.security import generate_password_hash
 from flask_mail import Message
 import app
@@ -11,12 +12,19 @@ from .. import mail
 @main.route('/')
 @main.route('/index')
 def index():
+    print(current_user._get_current_object())
     info = []
     try:
         info = Users.query.all()
     except:
         print("Ошибка чтения из БД")
     return render_template('index.html', list=info)
+
+
+@main.route('/none')
+def none():
+    return render_template('none.html')
+
 
 '''
 @main.route('/register', methods=['POST', 'GET'])
@@ -54,6 +62,8 @@ def login():
     return render_template('form_login.html')
 
 '''
+
+
 @main.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html"), 404

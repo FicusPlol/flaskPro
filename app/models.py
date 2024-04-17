@@ -1,9 +1,10 @@
 from datetime import datetime
 
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db,login_manager
-class Users(db.Model):
+class Users(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True)
@@ -34,7 +35,7 @@ def load_user(user_id):
         return f"<users {self.id}>"
 
 
-class Profiles(db.Model):
+class Profiles(UserMixin,db.Model):
     __tablename__ = 'profiles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=True)
