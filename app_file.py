@@ -1,5 +1,5 @@
 from app.models import Users, Profiles
-import unittest
+
 
 from flask_migrate import Migrate
 

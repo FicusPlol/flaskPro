@@ -13,3 +13,4 @@ class ContactForm(FlaskForm):
                                                                          message="The password must be between 4 and 30 characters long")])
     psw2 = PasswordField("Confirm password: ",validators=[DataRequired(), EqualTo('psw', message="Passwords don't match")])
     submit = SubmitField("Registration!")
+

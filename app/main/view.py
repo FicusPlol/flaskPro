@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, request
-from flask_login import current_user
+from flask_login import current_user, login_required
 from werkzeug.security import generate_password_hash
 from flask_mail import Message
 import app
@@ -25,6 +25,14 @@ def index():
 def none():
     return render_template('none.html')
 
+@main.route('/user/<id>')
+@login_required
+def user(id):
+    user = Users.query.filter_by(id=id).first_or_404()
+    profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
+    print(user,profile)
+
+    return render_template('waiting.html',user=user)
 
 '''
 @main.route('/register', methods=['POST', 'GET'])

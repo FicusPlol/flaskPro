@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret6754345356567rrr'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret'
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.googlemail.com'
     MAIL_PORT = os.environ.get('MAIL_PORT') or '587'
     MAIL_USE_TLS = int(os.environ.get('MAIL_USE_TLS', '5870'))
