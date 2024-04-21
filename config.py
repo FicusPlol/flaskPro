@@ -5,11 +5,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret'
-    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.googlemail.com'
-    MAIL_PORT = os.environ.get('MAIL_PORT') or '587'
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.mail.ru'
+    MAIL_PORT = os.environ.get('MAIL_PORT') or '465'
     MAIL_USE_TLS = int(os.environ.get('MAIL_USE_TLS', '5870'))
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'ficusplol@gmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'vaqm jhyq fhdf nsue'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'polina.dybovskaya@mail.ru'
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or ''
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     @staticmethod

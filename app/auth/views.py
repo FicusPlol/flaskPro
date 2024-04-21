@@ -24,7 +24,7 @@ def before_request():
 def confirm(token):
     if current_user.confirm:
         return redirect(url_for('main.index'))
-    if current_user.confirm(token):
+    if current_user.confirm(token.encode('utf-8')):
         db.session.commit()
         flash('it is okk')
     else:
@@ -35,11 +35,6 @@ def confirm(token):
 def unconfirmed():
     return "Not confirmed. Unfortunately"
 
-def send_confirm(msg):
-    from app_file import app
-    thread = Thread(target=send_async_email, args=[app, msg])
-    thread.start()
-    return thread
 
 
 @auth.route("/register", methods=['POST', 'GET'])
@@ -60,9 +55,11 @@ def register():
         print(token)
         msg = Message('Subject', sender=current_app.config['MAIL_USERNAME'], recipients=[email1])
         msg.body = render_template('confirm.txt', name=name, token=token.decode('utf-8'))
-        send_confirm(msg)
+        from app_file import app
+        thread = Thread(target=send_async_email, args=[app, msg])
+        thread.start()
         id = user.id
-        return redirect(url_for('main.user', id=id))
+        return render_template('waiting.html')
 
     return render_template('form_register.html')
 
