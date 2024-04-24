@@ -12,23 +12,26 @@ from .. import db
 from ..models import *
 from .. import mail
 
-
+'''
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated and not current_user.confirmed and request.blueprint != 'auth' \
             and request.endpoint != 'static':
         return redirect(url_for('auth.unconfirmed'))
-
+'''
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
-    if current_user.confirm:
+    print('test')
+    if current_user.confirmed:
+        flash('user ready')
         return redirect(url_for('main.index'))
     if current_user.confirm(token.encode('utf-8')):
         db.session.commit()
         flash('it is okk')
     else:
         flash('opppsss')
+
     return redirect(url_for('main.index'))
 
 @auth.route("/unconfirmed")
@@ -49,6 +52,9 @@ def register():
         db.session.commit()
         p = Profiles(name=name, city=request.form['city'], user_id=user.id)
         db.session.add(p)
+        db.session.commit()
+        ex = Extra_Info_Profile(prof_id=p.id)
+        db.session.add(ex)
         db.session.commit()
         print(user,p)
         token = user.generate_confirmation_token()
@@ -75,19 +81,16 @@ def send_async_email(app, msg):
 def login():
     if request.method == 'POST':
         email1 = request.form['email']
-        psw = request.form['psw']
-        hash = generate_password_hash(request.form['psw'])
-        user = Users.query.filter((Users.email == email1) and (Users.psw == hash)).first()
-        id = user.id
-        print(user)
-        if user:
-            print('if yess')
+        user = Users.query.filter((Users.email == email1)).first()
+        if (check_password_hash(user.psw,request.form['psw'])):
             login_user(user)
             print("вошел!")
             next_page = request.args.get("next")
             if not next_page or not next_page.startswith('/'):
-                next_page = url_for('main.user', id=id)
+                next_page = url_for('main.user',id=user.id)
             return redirect(next_page)
+        else:
+            return render_template('unconfirm.html')
         flash('Invalid username or password', 'error')
     return render_template('form_login.html')
 

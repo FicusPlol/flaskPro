@@ -22,6 +22,11 @@
         <li class="nav-item">
           <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/login'" >Form LogIn</a>
         </li>
+        {% if current_user.is_authenticated %}
+         <li class="nav-item">
+          <a class="navbar-brand text-white" href="{{ url_for('main.user', id=now_user.id) }}"> My Profile</a>
+        </li>
+        {% endif %}
       </ul>
         <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/logout'" >Logout</a>
     </div>

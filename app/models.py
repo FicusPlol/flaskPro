@@ -15,7 +15,6 @@ class Users(UserMixin, db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow)
     confirmed = db.Column(db.Boolean, default=False)
 
-
     def generate_confirmation_token(self):
         jws = JsonWebSignature()
         protected = {'alg': 'HS256'}
@@ -30,6 +29,7 @@ class Users(UserMixin, db.Model):
             print("it's not your token")
             return False
         else:
+            print("uuuuuu")
             self.confirmed = True
             db.session.add(self)
             return True
@@ -65,9 +65,23 @@ class Profiles(UserMixin, db.Model):
     name = db.Column(db.String(50), nullable=True)
     city = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ex = db.relationship('Extra_Info_Profile', backref='profiles', uselist=False)
 
     def __repr__(self):
         return f"<profiles {self.id}>"
+
+
+class Extra_Info_Profile(UserMixin, db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    job = db.Column(db.String(50), default="--")
+    website = db.Column(db.String(100), default="--")
+    github = db.Column(db.String(100), default="--")
+    twiter = db.Column(db.String(100), default="--")
+    insta = db.Column(db.String(100), default="--")
+    facebook = db.Column(db.String(100), default="--")
+    phone = db.Column(db.String(10), default="--")
+    prof_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
 
 
 '''

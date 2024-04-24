@@ -18,21 +18,42 @@ def index():
         info = Users.query.all()
     except:
         print("Ошибка чтения из БД")
-    return render_template('index.html', list=info)
+    if current_user._get_current_object() in info:
+        return render_template('index.html', list=info)
+    else:
+        return render_template('index.html')
+
+
+@main.app_context_processor
+def now_user():
+    user = current_user
+    return dict(now_user=user)
 
 
 @main.route('/none')
 def none():
     return render_template('none.html')
 
+
 @main.route('/user/<id>')
 @login_required
 def user(id):
+    print(id)
     user = Users.query.filter_by(id=id).first_or_404()
     profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
-    print(user,profile)
+    print(user, profile)
 
-    return render_template('waiting.html',user=user)
+    return render_template('profile.html', user=user, profile=profile)
+
+@main.route('/user_edit/<id>')
+@login_required
+def user_edit(id):
+    print(id)
+    user = Users.query.filter_by(id=id).first_or_404()
+    profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
+    print(user, profile)
+
+    return render_template('edit_profile.html', user=user, profile=profile)
 
 '''
 @main.route('/register', methods=['POST', 'GET'])
@@ -73,7 +94,7 @@ def login():
 
 
 @main.errorhandler(404)
-def page_not_found(error):
+def page_not_found(e):
     return render_template("error.html"), 404
 
 
