@@ -8,7 +8,7 @@ from . import main
 from .forms import ContactForm
 from .. import mail
 
-
+from ..decorators import admin_requared,permission_required
 @main.route('/')
 @main.route('/index')
 def index():
@@ -23,7 +23,18 @@ def index():
     else:
         return render_template('index.html')
 
+@main.route('/admin')
+@login_required
+@admin_requared
+def for_admin():
+    return 'for admin'
 
+
+@main.route('/moder')
+@login_required
+@permission_required(Permission.MODERATE)
+def for_moder():
+    return 'for moder'
 @main.app_context_processor
 def now_user():
     user = current_user
@@ -33,6 +44,9 @@ def now_user():
 @main.route('/none')
 def none():
     return render_template('none.html')
+@main.route('/art')
+def art():
+    return render_template('article.html')
 
 
 @main.route('/user/<id>')
@@ -41,19 +55,40 @@ def user(id):
     print(id)
     user = Users.query.filter_by(id=id).first_or_404()
     profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
+    info = Extra_Info_Profile.query.filter_by(prof_id=profile.id).first_or_404()
     print(user, profile)
 
-    return render_template('profile.html', user=user, profile=profile)
+    return render_template('profile.html', user=user, profile=profile, info=info)
 
-@main.route('/user_edit/<id>')
+
+@main.route('/user_edit/<id>', methods=['GET', 'POST'])
 @login_required
 def user_edit(id):
     print(id)
     user = Users.query.filter_by(id=id).first_or_404()
     profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
-    print(user, profile)
+    info = Extra_Info_Profile.query.filter_by(prof_id=profile.id).first_or_404()
+    print(user, profile, info)
+    if request.method == 'POST':
+        print('there issssssssss')
+        user.email = request.form['email']
 
-    return render_template('edit_profile.html', user=user, profile=profile)
+        profile.name = request.form['name']
+        profile.city = request.form['city']
+
+        info.phone = request.form['phone']
+        info.website = request.form['web']
+        info.github = request.form['git']
+        info.twiter = request.form['twit']
+        info.insta = request.form['insta']
+        info.facebook = request.form['face']
+        info.job = request.form['job']
+        db.session.commit()
+        print(info.job)
+        return redirect(url_for('main.user', id=user.id))
+
+    return render_template('profile_edit.html', user=user, profile=profile, info=info)
+
 
 '''
 @main.route('/register', methods=['POST', 'GET'])

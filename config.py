@@ -9,9 +9,11 @@ class Config:
     MAIL_PORT = os.environ.get('MAIL_PORT') or '587'
     MAIL_USE_TLS = int(os.environ.get('MAIL_USE_TLS', '5870'))
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'alextesttestovik@gmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'jhkq wdsa hbei uyil'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    #STATIC_FOLDER = 'static'
+    # STATIC_FOLDER = 'static'
+    FlASKY_ADMIN = 'tfgv60@gmail.com'
+
     @staticmethod
     def init_app(app):
         pass

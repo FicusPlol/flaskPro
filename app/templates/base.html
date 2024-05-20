@@ -7,9 +7,9 @@
   <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {% block navbar %}
-        <nav class="navbar navbar-expand-lg text-white" style="background: #3571af" >
+        <nav class="navbar navbar-expand-lg text-white" style="background: #000000" >
   <div class="container-fluid ">
-    <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/index'" >ψ(｀∇´)ψ</a>
+    <a class="navbar-brand o" onclick="location.href='http://127.0.0.1:5000/index'" >ψ(｀∇´)ψ</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,18 +17,18 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
 
         <li class="nav-item">
-          <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/register'" >Form SingIn</a>
+          <a class="navbar-brand o" onclick="location.href='http://127.0.0.1:5000/auth/register'" >Form SingIn</a>
         </li>
         <li class="nav-item">
-          <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/login'" >Form LogIn</a>
+          <a class="navbar-brand o" onclick="location.href='http://127.0.0.1:5000/auth/login'" >Form LogIn</a>
         </li>
         {% if current_user.is_authenticated %}
          <li class="nav-item">
-          <a class="navbar-brand text-white" href="{{ url_for('main.user', id=now_user.id) }}"> My Profile</a>
+          <a class="navbar-brand o" href="{{ url_for('main.user', id=now_user.id) }}"> My Profile</a>
         </li>
         {% endif %}
       </ul>
-        <a class="navbar-brand text-white" onclick="location.href='http://127.0.0.1:5000/auth/logout'" >Logout</a>
+        <a class="navbar-brand o" onclick="location.href='http://127.0.0.1:5000/auth/logout'" >Logout</a>
     </div>
   </div>
 </nav>
