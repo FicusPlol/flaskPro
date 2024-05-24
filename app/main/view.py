@@ -13,6 +13,7 @@ from ..decorators import admin_requared,permission_required
 @main.route('/index')
 def index():
     print(current_user._get_current_object())
+    print(current_user.get_id())
     info = []
     try:
         info = Users.query.all()

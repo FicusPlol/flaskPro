@@ -7,6 +7,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db, login_manager
 
 
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    data_post = db.Column(db.DateTime, default=datetime.utcnow)
+    content = db.Column(db.Text(60), nullable=False)
+    image_post = db.Column(db.String(30), nullable=True, default='default.jpg')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repl__(self):
+        return f'Users({self.title},{self.data_post},{self.image_post}'
+
+
 class Permission:
     FOLLOW = 1
     COMMENT = 2

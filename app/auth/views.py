@@ -19,6 +19,8 @@ def before_request():
             and request.endpoint != 'static':
         return redirect(url_for('auth.unconfirmed'))
 '''
+
+
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
@@ -34,38 +36,41 @@ def confirm(token):
 
     return redirect(url_for('main.index'))
 
+
 @auth.route("/unconfirmed")
 def unconfirmed():
     return "Not confirmed. Unfortunately"
 
 
-
 @auth.route("/register", methods=['POST', 'GET'])
 def register():
     form = ContactForm()
-    if request.method == 'POST':
-        hash = generate_password_hash(request.form['psw'])
-        user = Users(email=request.form['email'], psw=hash)
-        name = request.form['name']
-        email1=request.form['email']
-        db.session.add(user)
-        db.session.commit()
-        p = Profiles(name=name, city=request.form['city'], user_id=user.id)
-        db.session.add(p)
-        db.session.commit()
-        ex = Extra_Info_Profile(prof_id=p.id)
-        db.session.add(ex)
-        db.session.commit()
-        print(user,p)
-        token = user.generate_confirmation_token()
-        print(token)
-        msg = Message('Subject', sender=current_app.config['MAIL_USERNAME'], recipients=[email1])
-        msg.body = render_template('confirm.txt', name=name, token=token.decode('utf-8'))
-        from app_file import app
-        thread = Thread(target=send_async_email, args=[app, msg])
-        thread.start()
-        id = user.id
-        return render_template('waiting.html')
+    try:
+        if request.method == 'POST':
+            hash = generate_password_hash(request.form['psw'])
+            user = Users(email=request.form['email'], psw=hash)
+            name = request.form['name']
+            email1 = request.form['email']
+            db.session.add(user)
+            db.session.commit()
+            p = Profiles(name=name, city=request.form['city'], user_id=user.id)
+            db.session.add(p)
+            db.session.commit()
+            ex = Extra_Info_Profile(prof_id=p.id)
+            db.session.add(ex)
+            db.session.commit()
+            print(user, p)
+            token = user.generate_confirmation_token()
+            print(token)
+            msg = Message('Subject', sender=current_app.config['MAIL_USERNAME'], recipients=[email1])
+            msg.body = render_template('confirm.txt', name=name, token=token.decode('utf-8'))
+            from app_file import app
+            thread = Thread(target=send_async_email, args=[app, msg])
+            thread.start()
+            id = user.id
+            return render_template('waiting.html')
+    except:
+        return redirect(url_for('main.error'))
 
     return render_template('form_register.html')
 
@@ -75,24 +80,27 @@ def send_async_email(app, msg):
         mail.send(msg)
 
 
-
-
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email1 = request.form['email']
+    form=LoginForm()
+    if request.method == 'POST' and form.validate():
+        email1 = form.email.data
         user = Users.query.filter((Users.email == email1)).first()
-        if (check_password_hash(user.psw,request.form['psw'])):
-            login_user(user)
-            print("вошел!")
-            next_page = request.args.get("next")
-            if not next_page or not next_page.startswith('/'):
-                next_page = url_for('main.user',id=user.id)
-            return redirect(next_page)
-        else:
+        try:
+            psww=form.psw.data
+            if (check_password_hash(user.psw, psww)):
+                login_user(user)
+                print("вошел!")
+                next_page = request.args.get("next")
+                if not next_page or not next_page.startswith('/'):
+                    next_page = url_for('main.user', id=user.id)
+                return redirect(next_page)
+            else:
+                return render_template('unconfirm.html')
+        except:
             return render_template('unconfirm.html')
         flash('Invalid username or password', 'error')
-    return render_template('form_login.html')
+    return render_template('form_login.html',form=form)
 
 
 @auth.route("/logout")
