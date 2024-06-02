@@ -27,6 +27,9 @@
           <a class="navbar-brand o" href="{{ url_for('main.user', id=now_user.id) }}"> My Profile</a>
         </li>
         <li class="nav-item">
+          <a class="navbar-brand o" href="{{ url_for('post.articles') }}"> Posts</a>
+        </li>
+        <li class="nav-item">
           <a class="navbar-brand o" onclick="location.href='http://127.0.0.1:5000/post/new'">Create Post</a>
         </li>
         {% endif %}
@@ -38,9 +41,13 @@
   </head>
     {% endblock %}
 
-<body style="background: #e3fff2">
+
 
 {% block content %}
-{% endblock %}
+<body style=" background-color: #008284;">
+
+
 </body>
+{% endblock %}
+
 </html>

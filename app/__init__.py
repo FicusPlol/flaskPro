@@ -33,7 +33,7 @@ def create_app(config_name="default"):
     app.register_blueprint(main_blueprint, config=config)
 #new
     from .post import post as post_blueprint
-    app.register_blueprint(post_blueprint, config=config)
+    app.register_blueprint(post_blueprint, config=config,url_prefix='/post')
 #
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')

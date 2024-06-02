@@ -11,6 +11,10 @@ class ContactForm(FlaskForm):
                        validators=[Length(min=2, max=30, message="The city must be between 2 and 30 characters long")])
     psw = PasswordField("Password: ", validators=[DataRequired(), Length(min=2, max=30,
                                                                          message="The password must be between 4 and 30 characters long")])
-    psw2 = PasswordField("Confirm password: ",validators=[DataRequired(), EqualTo('psw', message="Passwords don't match")])
+    psw2 = PasswordField("Confirm password: ",
+                         validators=[DataRequired(), EqualTo('psw', message="Passwords don't match")])
     submit = SubmitField("Registration!")
 
+
+class Edit(FlaskForm):
+    image = FileField('Picture (png,jpg)')

@@ -1,21 +1,29 @@
 {%  extends "base.html" %}
 {% block content %}
-<center>
-    <h1>Hiiiiiiiiiiiiiiii my friend!</h1>
-    <h3>You are a friend</h3>
-
-
-	{% for u in list %}
-		<li>id: {{u.id}} </li>
-		<p>email: {{u.email}}</p>
-
-	<p>Имя: {{u.pr.name}}</p>
-	<p>Город: {{u.pr.city}}</p>
-
-	</li>
-	<p></p>
-{% endfor %}
-
-</center>
-
+<body style=" background-color: #008284;">
+<link type="text/css" href="{{ url_for('static', filename='css/index.css')}}" rel="stylesheet" />
+<div class= 'container'>
+<div class="container_content">
+<div class="container_content_inner">
+<div class="title">
+  <h1>Hello World</h1>
+</div>
+<div class="par">
+<p>
+Это мой новенький english-русский сайт- здесь вы сможете писать и читать статьи, знакомиться с другими и просто наслаждаться процессом
+</p>
+</div>
+<div class="btns">
+<button class='btns_more' onclick="location.href='http://127.0.0.1:5000/auth/register'"> See more </button>
+</div>
+</div>
+</div>
+ <div class="container_outer_img">
+ <div class="img-inner">
+ <img src='https://psv4.userapi.com/c909228/u239831462/docs/d34/97e2e425212e/3u33.jpg?extra=WibLbjI_PmZCOM0vwy-K8qWQU-mq3-rKumcRLC4zYjgIRRYuI12MbUl71DatE8_3P74PVzxnxf9f78tC7RoNXHyFpMXt3RkFIvpJq3rYHbAvjqHQkfE6vRhE9toNhOkNy6SnIVicnxyByYkIRFCMq9odR1c'  alt="" class="container_img"/>
+       </div>
+     </div>
+  </div>
+<div class="overlay"></div>
+</body>
 {% endblock %}

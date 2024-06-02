@@ -1,19 +1,21 @@
 {%  extends "base.html" %}
 {% block content %}
 <link type="text/css" href="{{ url_for('static', filename='css/profile.css')}}" rel="stylesheet" />
+ <body style=" background-color: #008284;">
 <div class="container">
-    <form action="" method="post">
-    <div class="main-body">
+    <form action="" method="post" enctype="multipart/form-data" >
+         {{form.hidden_tag()}}
+    <div class="main-body"  style="background-color:black;">
           <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="{{url_for('static',filename='profile_images/'+ profile.image)}}" alt="Admin" class="rounded-circle"  height="150" width="150">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                       <div class="mt-3">
                       <h4>{{profile.name}}</h4>
-                      <p class="text-muted font-size-sm">{{profile.city}}</p>
+                      <p class="text-muted font-size-sm">{{form.image(class="btn btn-dark oo")}}</p>
                      </div>
                   </div>
                 </div>
@@ -53,11 +55,16 @@
 
                 </ul>
               </div>
+                <br>
+                    <div class="col-sm-4" >
+                      <button class="btn oo z" type="submit">Save</button>
+                    </div>
             </div>
+
             <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
-                  							<div class="row mb-3">
+                    <div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Full Name</h6>
 								</div>
@@ -65,7 +72,7 @@
 									<input type="text" name="name" class="form-control" value="{{profile.name}}">
 								</div>
 							</div>
-							<div class="row mb-3">
+                    <div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Email</h6>
 								</div>
@@ -73,7 +80,7 @@
 									<input type="text" name="email" class="form-control" value="{{user.email}}">
 								</div>
 							</div>
-							<div class="row mb-3">
+                    <div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Phone</h6>
 								</div>
@@ -81,7 +88,7 @@
 									<input type="text" name="phone" class="form-control" value="{{info.phone}}">
 								</div>
 							</div>
-							<div class="row mb-3">
+                    <div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Address</h6>
 								</div>
@@ -97,17 +104,47 @@
 									<input type="text" name="job"  class="form-control" value="{{info.job}}">
 								</div>
 							</div>
-							<div class="row">
+                    <div class="row">
 								<div class="col-sm-3"></div>
-								<div class="col-sm-9 text-secondary">
-									<button class="btn btn-dark " type="submit">Edit now</button>
-								</div>
+
                 </div>
               </div>
             </div>
+                <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6 class="mb-0">Date</h6>
+                    </div>
+                    <div class="col-sm-8">
+                      <h6 class="mb-0">Title</h6>
+                    </div>
+                    <div class="col-sm-2">
+                        <h6 class="mb-0">Action</h6>
+                    </div>
+                  </div>
+                  <hr>
+                  {% for post in posts %}
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6 class="mb-0">{{post.data_post}}</h6>
+                    </div>
+                    <div class="col-sm-8">
+                      <h6 class="mb-0">{{post.title}}</h6>
+                    </div>
+                      <div class="col-sm-2">
+                      <a class="btn btn-dark oo" target="__blank" href="{{ url_for('main.post_edit', id=post.id) }}">Delete</a>
+                    </div>
+                  </div>
+                  <hr>
+                  {% endfor %}
+
+                </div>
+              </div>
           </div>
         </div>
     </div>
 </form>
 </div>
+ </body>
 {% endblock %}

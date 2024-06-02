@@ -8,12 +8,12 @@ from . import db, login_manager
 
 
 class Post(db.Model):
-    __tablename__ = 'posts'
+    __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     data_post = db.Column(db.DateTime, default=datetime.utcnow)
-    content = db.Column(db.Text(60), nullable=False)
-    image_post = db.Column(db.String(30), nullable=True, default='default.jpg')
+    content = db.Column(db.Text(2000), nullable=False)
+    image_post = db.Column(db.String(50), nullable=True, default='def.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def __repl__(self):
@@ -87,7 +87,7 @@ class Users(UserMixin, db.Model):
     psw = db.Column(db.String(500), nullable=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     confirmed = db.Column(db.Boolean, default=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'),default=2)
 
     def __init__(self, **kwargs):
         super(Users, self).__init__(**kwargs)
@@ -144,6 +144,7 @@ class Profiles(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=True)
     city = db.Column(db.String(50))
+    image = db.Column(db.String(50), nullable=True, default='default.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     ex = db.relationship('Extra_Info_Profile', backref='profiles', uselist=False)
 

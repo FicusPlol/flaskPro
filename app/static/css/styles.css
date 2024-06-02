@@ -2,11 +2,14 @@
 	display: inline-block;
 	background: #FF9898;
 }
+.q{
+background:#323232
+color:#323232}
 .form.invalid-feedback {
 	color: #CC0000;
 }
 .form{
-color: #21629a;
+color: #2b2b2b;
 }
 .u{
 color: #21629a;
@@ -23,17 +26,38 @@ background-color: black;
 }
 
 .o:hover{
-  color: #397eb5; /* Меняем цвет текста */
+  color: #008284;
+  }
+
+.label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 24px;
+    font-weight: 300;
+    color:#ffffff;
 }
 
+
 .oo {
-  color: black ;/* Цвет текста */
+  color: #008284 ;
+
   -webkit-transition: all 0.5s ease;
           transition: all 0.5s ease;
 }
 
 .oo:hover{
-  color: #397eb5; /* Меняем цвет текста */
+  color: #397eb5;
 }
 
 :root {
