@@ -25,7 +25,7 @@ def new_post():
     return render_template('create_post.html', form=form, image_file=image_file)
 
 
-@post.route('/posts')
+@post.route('/articles')
 def articles():
     posts = []
     posts = Post.query.all()

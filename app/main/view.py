@@ -4,11 +4,21 @@ from app.models import *
 from . import main
 from .forms import *
 from .utils import *
+
 from ..decorators import admin_requared, permission_required
-from flask_admin import Admin, BaseView, AdminIndexView, expose
 
-from flask_admin.contrib.sqla import ModelView
 
+
+
+"""
+    Adding views for admin panel
+    admin.add_view(ModelView(Users, db.session))
+admin.add_view(ModelView(Role, db.session))
+admin.add_view(ModelView(Extra_Info_Profile, db.session))
+admin.add_view(ModelView(Profiles, db.session))
+admin.add_view(ModelView(Post, db.session))
+
+"""
 
 
 @main.route('/')
@@ -25,13 +35,14 @@ def index():
         return render_template('index.html')
 
 
+''''
 @main.route('/admin')
 @login_required
 @admin_requared
 def for_admin():
     return 'for admin'
 
-
+'''
 @main.route('/moder')
 @login_required
 @permission_required(Permission.MODERATE)
