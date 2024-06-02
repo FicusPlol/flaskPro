@@ -3,7 +3,6 @@ import secrets
 from PIL import Image
 from werkzeug.utils import secure_filename
 from flask import current_app
-from flask_login import current_user
 
 
 def save_picture_post(form_picture):

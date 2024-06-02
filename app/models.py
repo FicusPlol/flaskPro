@@ -1,9 +1,7 @@
 from datetime import datetime
-
 from authlib.jose import JsonWebSignature
 from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from . import db, login_manager
 
 
@@ -87,7 +85,7 @@ class Users(UserMixin, db.Model):
     psw = db.Column(db.String(500), nullable=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     confirmed = db.Column(db.Boolean, default=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'),default=2)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), default=2)
 
     def __init__(self, **kwargs):
         super(Users, self).__init__(**kwargs)

@@ -8,35 +8,19 @@ from ..models import *
 from .. import mail
 
 
-@auth.route('/confirm/<token>')
-@login_required
-def confirm(token):
-    print('test')
-    if current_user.confirmed:
-        flash('user ready')
-        return redirect(url_for('main.index'))
-    if current_user.confirm(token.encode('utf-8')):
-        db.session.commit()
-        flash('it is okk')
-    else:
-        flash('opppsss')
-
-    return redirect(url_for('main.index'))
-
-
-@auth.route("/unconfirmed")
-def unconfirmed():
-    return "Not confirmed. Unfortunately"
-
-
 @auth.route("/register", methods=['POST', 'GET'])
 def register():
+    """
+    Регистрация пользователя
+    :return:
+    отправляет на страницу с просьбой подтвержить почту, в случае ошибки на главный экран
+    """
     form = ContactForm()
     try:
         if request.method == 'POST':
             print('registr')
             hash = generate_password_hash(request.form['psw'])
-            user = Users(email=request.form['email'], psw=hash,role_id=2)
+            user = Users(email=request.form['email'], psw=hash, role_id=2)
             name = request.form['name']
             email1 = request.form['email']
             db.session.add(user)
@@ -68,6 +52,12 @@ def send_async_email(app, msg):
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
+    """
+    Фуекция входа
+    :return: если пользователь имеет подтвержденную почту то он проходит на главный экран
+    и у него в навбаре появляются новые доступные функции,
+    иначе перенаправление на страницу с сообщением о неподтвержденной почте
+    """
     form = LoginForm()
     if request.method == 'POST' and form.validate():
         email1 = form.email.data
@@ -90,6 +80,37 @@ def login():
 
 @auth.route("/logout")
 def logout():
+    """
+    Функция выхода из аккаунта
+    :return: на страницу выхода
+    """
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.none'))
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    """
+    Функция проверки подтверждения пользователя
+    :param token: сгенерированный токен для пользователя в модели User
+     :return, если текущий пользователь подтвержден - перенаправление на main.index,
+     токен elif правильный - пользователь подтвержден и
+    перенаправление на main.index, elif token не правильно - прошить, иначе - перенаправление на main.index
+    """
+    if current_user.confirmed:
+        flash('user ready')
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token.encode('utf-8')):
+        db.session.commit()
+        flash('it is okk')
+    else:
+        flash('opppsss')
+
+    return redirect(url_for('main.index'))
+
+
+@auth.route("/unconfirmed")
+def unconfirmed():
+    return "Not confirmed. Unfortunately"

@@ -5,65 +5,45 @@ from . import main
 from .forms import *
 from .utils import *
 
-from ..decorators import admin_requared, permission_required
-
-
-
-
-"""
-    Adding views for admin panel
-    admin.add_view(ModelView(Users, db.session))
-admin.add_view(ModelView(Role, db.session))
-admin.add_view(ModelView(Extra_Info_Profile, db.session))
-admin.add_view(ModelView(Profiles, db.session))
-admin.add_view(ModelView(Post, db.session))
-
-"""
-
 
 @main.route('/')
 @main.route('/index')
 def index():
-    info = []
-    try:
-        info = Users.query.all()
-    except:
-        print("Ошибка чтения из БД")
-    if current_user._get_current_object() in info:
-        return render_template('index.html', list=info)
-    else:
-        return render_template('index.html')
-
-
-''''
-@main.route('/admin')
-@login_required
-@admin_requared
-def for_admin():
-    return 'for admin'
-
-'''
-@main.route('/moder')
-@login_required
-@permission_required(Permission.MODERATE)
-def for_moder():
-    return 'for moder'
+    """
+    Функция возвращает главную страницу
+    :return: переход на главный экран
+    """
+    return render_template('index.html')
 
 
 @main.app_context_processor
 def now_user():
+    """
+    общая информация о юзере досмтупная во всех вкладках и темплейтах
+    :return: словарь с информацией о нынешнем юзере
+    """
     user = current_user
     return dict(now_user=user)
 
 
 @main.route('/none')
 def none():
+    """
+    страница выхода
+    :return: происходит переход на страницу с сообщением о выходе из уч.записи
+    """
     return render_template('none.html')
 
 
 @main.route('/user/<id>')
 @login_required
 def user(id):
+    """
+    Если пользователь открыл свою страницу. то ему доступна кнопка редактирования профиля, иначе ее нет-
+    авторизированный пользователь может лишь просмотреть информацию профиля, владелец - еще и редактировать
+    :param id: id юзера
+    :return: отправляет на стринцу пользователя
+    """
     user = Users.query.filter_by(id=id).first_or_404()
     profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
     info = Extra_Info_Profile.query.filter_by(prof_id=profile.id).first_or_404()
@@ -77,6 +57,11 @@ def user(id):
 @main.route('/user_edit/<id>', methods=['GET', 'POST'])
 @login_required
 def user_edit(id):
+    """
+    Открывает страницу для редактирования данных пользователя
+    :param id: id юзера
+    :return: возвращает на страницу профиля
+    """
     user = Users.query.filter_by(id=id).first_or_404()
     profile = Profiles.query.filter_by(user_id=user.id).first_or_404()
     info = Extra_Info_Profile.query.filter_by(prof_id=profile.id).first_or_404()
@@ -109,6 +94,11 @@ def user_edit(id):
 @main.route('/post_delete/<id>', methods=['GET', 'POST'])
 @login_required
 def post_edit(id):
+    """
+    Удаление поста
+    :param id: id поста
+    :return: страница редактирования профиля (пользователь остается на той же странице)
+    """
     post = Post.query.filter_by(id=id).first_or_404()
     db.session.delete(post)
     db.session.commit()
@@ -119,4 +109,9 @@ def post_edit(id):
 
 @main.errorhandler(404)
 def page_not_found(e):
+    """
+    Открывает страницу с ошибкой 404
+    :param e: error
+    :return: страницу ошибки
+    """
     return render_template("error.html"), 404
