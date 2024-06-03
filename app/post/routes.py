@@ -1,4 +1,6 @@
 from flask import flash, url_for, redirect, render_template, request
+from flask_login import current_user
+
 from . import post
 from .forms import *
 from ..models import *
@@ -9,7 +11,7 @@ from .utils import *
 def new_post():
     '''
     Содает новый пост
-    из полученных данных(формы) создает и сохраняет новый пост
+    из полученных данных(формы) создает и сохраняет новый пост и картинку
     return: на страницу со всеми постами
     '''
     form = PostForm()
